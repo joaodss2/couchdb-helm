@@ -1,5 +1,5 @@
 # -- the initial number of nodes in the CouchDB cluster.
-clusterSize: 3
+clusterSize: 1
 
 # -- If allowAdminParty is enabled the cluster will start up without any database
 # administrator account; i.e., all users will be granted administrative
@@ -67,7 +67,7 @@ serviceAccount:
 # provisioning of Persistent Volumes; leaving it unset will invoke the default
 # provisioner.
 persistentVolume:
-  enabled: false
+  enabled: true
   # NOTE: the number of existing claims must match the cluster size
   existingClaims: []
   annotations: {}
@@ -172,10 +172,10 @@ extraPorts: []
 ## from outside the Kubernetes cluster.
 ## ref: https://kubernetes.io/docs/concepts/services-networking/ingress/
 ingress:
-  enabled: false
-  # className: nginx
+  enabled: true
+  className: internet-nginx
   hosts:
-    - chart-example.local
+    - obsidian.7kgang.org
   path: /
   annotations: {}
     # kubernetes.io/ingress.class: nginx
@@ -222,15 +222,13 @@ erlangFlags:
 # by a ConfigMap object.
 # ref: http://docs.couchdb.org/en/latest/config/index.html
 couchdbConfig:
-  # couchdb:
-  #  uuid: decafbaddecafbaddecafbaddecafbad # Unique identifier for this CouchDB server instance
-  # cluster:
-  #   q: 8 # Create 8 shards for each database
+  couchdb:
+    uuid: 8bf3a7b5c6ba4e4fb51500a47924984f
   chttpd:
     bind_address: any
     # chttpd.require_valid_user disables all the anonymous requests to the port
     # 5984 when is set to true.
-    require_valid_user: false
+    require_valid_user: true
   # required to use Fauxton if chttpd.require_valid_user is set to true
   # httpd:
   #   WWW-Authenticate: "Basic realm=\"administrator\""
